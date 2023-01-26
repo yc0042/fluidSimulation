@@ -27,7 +27,7 @@
     <ProjectGuid>{f7a52c33-0b1a-4ac8-abd8-378bc81d32f0}</ProjectGuid>
     <RootNamespace>fluidSimulation</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>fluidSimulation_float</ProjectName>
+    <ProjectName>fluidSimulation</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
