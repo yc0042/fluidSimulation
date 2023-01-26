@@ -228,14 +228,28 @@ void FluidCellStep(FluidCell* cell)
 }
 
 int main(int argc, char* argv[]) {
+    // Prompt user for window size and zoom level
+    int resolution;
+    std::cout << "What resolution do you want the simulation to be rendered at?" << std::endl;
+    std::cin >> resolution;
+    int zoom;
+    std::cout << "What simulation scale do you want (pick an integer >= 1, higher means less accurate simulation)?" << std::endl;
+    std::cin >> zoom;
+
+    while(resolution / zoom != (float)resolution / (float)zoom)
+    {
+        ++zoom;
+    }
+    
     // Initialize SDL
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
 
     // Create a window
-    SDL_Window* window = SDL_CreateWindow("Pixel Grid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1440, 1440, SDL_WINDOW_SHOWN);
+    SDL_Window* window = SDL_CreateWindow("Pixel Grid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, resolution, resolution, SDL_WINDOW_SHOWN);
     if (window == NULL) {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return 1;
@@ -251,8 +265,8 @@ int main(int argc, char* argv[]) {
     int N = 160;
 
     // Create a surface to hold the pixel data
-    const int width = 160;
-    const int height = 160;
+    int width = resolution/zoom;
+    int height = resolution/zoom;
     int depth = 32;
     Uint32 rmask, gmask, bmask, amask;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -273,7 +287,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Initialize Fluid Cell
-    FluidCell* cell = FluidCellCreate(160, 0.00000005f, 0.000000001f, 0.033f);
+    FluidCell* cell = FluidCellCreate(width, 0.00000005f, 0.000000001f, 0.033f);
 
     // Fill the surface with the pixel data from the 2D-array
     float* pixel_grid = cell->density;
